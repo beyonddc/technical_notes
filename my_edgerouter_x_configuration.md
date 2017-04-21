@@ -1,0 +1,36 @@
+# Overview
+This is a living document to document the process to configure EdgeRouter X on my home network.
+
+The following is general information about my ISP and network devices I have.
+* Internet service provider is Comcast
+* ARRIS SURFboard SBG6700AC DOCSIS 3.0 Cable Modem/ Wi-Fi AC1600 Router
+* EdgeRouter X with Firmware v1.9.1
+* Netgear ProSAFE GS108T 8 Port Gigabit Smart Switch (GS108T-200NAS)
+* TP-Link 5 Port Gigabit Unmanaged Switch (TL-SG1005D)
+* TP-Link 8 Port Gigabit Unmanaged Switch (TL-SG1008D)
+* Belkin AC 1750 DB Wi-Fi Dual-Band AC+ Gigabit Router (F9K1115)
+* TP-Link N600 Wireless Wi-Fi Dual Band Router (TL-WDR3600)
+
+I plan to create 3 VLANs on my home network, VLAN10, VLAN20 and VLAN30.
+* VLAN10 consists of general accessible services such as NAS and printers
+* VLAN20 consists of entertainment network
+* VLAN30 consists of work network
+* VLAN10 would have bi-directional communication with VLAN20 and VLAN30
+* VLAN20 and VLAN30 cannot communicate with each other
+
+## ARRIS SURFboard SBG6700AC DOCSIS 3.0 Cable Modem/ Wi-Fi AC1600 Router
+Because I will be using the EdgeRouter X as the primary router, therefore we will disable the routing capability provided by this modem.  That also means I will lose the AC1600 WiFi.
+
+**NOTE** According to documentation, although the SBG6700 does not route traffic when Bridge Mode is enabled, it can still act as a firewall if the firewall settings in the SBG6700 are enabled.
+
+1. Access to the SBG6700AC web administration site
+1. Basic -> Backup and Restore: Create a backup of your current configuration
+1. Write down anything that might be important for you such as static IP addresses
+1. Basic -> Setup: Set Gateway Mode from **Routed** to **Bridged**
+1. Click the **Apply** button to restart SBG6700AC
+**NOTE** To gain access back to the SBG6700AC web administration site, you will need to use the last IP address that SBG6700AC is assigned to.  In addition you might need to set a static IP address on your PC to match the subnet of SBG6700AC's IP address.
+
+## EdgeRouter X with Firmware v1.9.1
+EdgeRouter X will provide all the routing functionality of my network including receiving the public IP provided by Comcast.  Comcast provides both IPv4 and IPv6 addresses so it is necessary to take that into consideration when configuring the EdgeRouter X.
+
+* Use WAN+2LAN2 Wizard
