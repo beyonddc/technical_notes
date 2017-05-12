@@ -94,4 +94,5 @@ net.ipv6.conf.all.disable_ipv6=1
 
 ## References
 [Using the Raspberry Pi as an Access Point to Share an Internet Connection](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md)
+
 [WiFi AccessPoint bridged to LAN transparently](https://raspberrypi.stackexchange.com/questions/14318/wifi-accesspoint-bridged-to-lan-transparently)
