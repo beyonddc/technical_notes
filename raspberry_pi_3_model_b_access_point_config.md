@@ -22,7 +22,7 @@ sudo apt-get install hostapd bridge-utils
 sudo systemctl stop hostapd
 ```
 
-4. Set DAEMON_CONF variable in /etc/default/hostapd
+4. Set DAEMON_CONF variable in ```/etc/default/hostapd```
 ```
 DAEMON_CONF="/etc/hostapd/hostapd.conf"
 ```
@@ -49,7 +49,7 @@ wpa_passphrase=set_your_password_here
 bridge=br0
 ```
 
-6. Update /etc/network/interfaces
+6. Update ```/etc/network/interfaces```
 ```
 # interfaces(5) file used by ifup(8) and ifdown(8)
 
@@ -126,6 +126,7 @@ dhcp-range=192.168.9.50,192.168.9.150,12h # Assign IP addresses between 192.168.
 5. Update ```/etc/default/dnsmasq``` and set ``IGNORE_RESOLVCONF```
 6. Update ```/etc/hostapd/hostapd.conf```
 Comment out ```bridge=br0```
+7. That should be it, now just reboot your Pi.
 
 ## References
 [Using the Raspberry Pi as an Access Point to Share an Internet Connection](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md)
