@@ -92,11 +92,42 @@ net.ipv6.conf.all.disable_ipv6=1
 
 8. That should be it, now just reboot your Pi.
 
+## Other Notes
+### Unable to start hostapd via systemctl
+Discovered while setting a 2nd access point that hostapd cannot be started via systemctl.  After looking into it, apparently in ```/etc/init.d/hostapd```, there's a line that sources the ```. /lib/lsb/init-functions``` and that command is failing.  Comment out that line in ```/etc/init.d/hostapd``` resolved the issue.
+### Setting DHCP Server on wlan0 after bridge is already set
+1. Install dnsmasq
+```
+sudo apt-get install dnsmasq
+```
+2. Update ```/etc/dhcpcd.conf``` and add the following line to the bottom of the file
+```
+denyinterfaces wlan0
+```
+3. Update ```/etc/network/interfaces```
+```
+allow-hotplug wlan0  
+iface wlan0 inet static  
+    address 192.168.9.1
+    netmask 255.255.255.0
+    network 192.168.9.0
+    broadcast 192.168.9.255
+```
+4. Configure DNSMASQ ```/etc/dnsmasq.conf``` by copy and paste the following into the conf file
+```
+interface=wlan0      # Use interface wlan0  
+listen-address=192.168.9.1 # Explicitly specify the address to listen on  
+bind-interfaces      # Bind to the interface to make sure we aren't sending things elsewhere  
+server=8.8.8.8       # Forward DNS requests to Google DNS  
+domain-needed        # Don't forward short names  
+bogus-priv           # Never forward addresses in the non-routed address spaces.  
+dhcp-range=192.168.9.50,192.168.9.150,12h # Assign IP addresses between 192.168.9.50 and 192.168.9.150 with a 12 hour lease time
+```
+5. Update ```/etc/default/dnsmasq``` and set ``IGNORE_RESOLVCONF```
+6. Update ```/etc/hostapd/hostapd.conf```
+Comment out ```bridge=br0```
+
 ## References
 [Using the Raspberry Pi as an Access Point to Share an Internet Connection](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md)
 
 [WiFi AccessPoint bridged to LAN transparently](https://raspberrypi.stackexchange.com/questions/14318/wifi-accesspoint-bridged-to-lan-transparently)
-
-## Findings
-### Unable to start hostapd via systemctl
-Discovered while setting a 2nd access point that hostapd cannot be started via systemctl.  After looking into it, apparently in ```/etc/init.d/hostapd```, there's a line that sources the ```. /lib/lsb/init-functions``` and that command is failing.  Comment out that line in ```/etc/init.d/hostapd``` resolved the issue.
