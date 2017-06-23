@@ -22,7 +22,7 @@ sudo apt-get install hostapd bridge-utils
 sudo systemctl stop hostapd
 ```
 
-4. Set DAEMON_CONF variable in /etc/default/hostapd.conf
+4. Set DAEMON_CONF variable in /etc/default/hostapd
 ```
 DAEMON_CONF="/etc/hostapd/hostapd.conf"
 ```
@@ -96,3 +96,7 @@ net.ipv6.conf.all.disable_ipv6=1
 [Using the Raspberry Pi as an Access Point to Share an Internet Connection](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md)
 
 [WiFi AccessPoint bridged to LAN transparently](https://raspberrypi.stackexchange.com/questions/14318/wifi-accesspoint-bridged-to-lan-transparently)
+
+## Findings
+### Unable to start hostapd via systemctl
+Discovered while setting a 2nd access point that hostapd cannot be started via systemctl.  After looking into it, apparently in ```/etc/init.d/hostapd```, there's a line that sources the ```. /lib/lsb/init-functions``` and that command is failing.  Comment out that line in ```/etc/init.d/hostapd``` resolved the issue.
