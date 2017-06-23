@@ -27,7 +27,7 @@ sudo systemctl stop hostapd
 DAEMON_CONF="/etc/hostapd/hostapd.conf"
 ```
 
-5. Create /etc/hostapd/hostapd.conf
+5. Create ```/etc/hostapd/hostapd.conf```
 ```
 interface=wlan0
 driver=nl80211
