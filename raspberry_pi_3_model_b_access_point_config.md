@@ -127,6 +127,8 @@ dhcp-range=192.168.9.50,192.168.9.150,12h # Assign IP addresses between 192.168.
 6. Update ```/etc/hostapd/hostapd.conf```
 Comment out ```bridge=br0```
 7. That should be it, now just reboot your Pi.
+### Using the Original Raspberry Pi Model B as Access Point
+The instruction pretty much remain identical except that you will need supply your own WiFi adapter.  In my case, I used ```Belkin Components F7D1102 N150/Surf Micro Wireless Adapter v1000 [Realtek RTL8188CUS]```.  In addition, in the ```/etc/hostapd/hostapd.conf``` that you prepare in previous step, comment out the line ```driver=nl80211``` and you should be good to go.
 
 ## References
 [Using the Raspberry Pi as an Access Point to Share an Internet Connection](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md)
