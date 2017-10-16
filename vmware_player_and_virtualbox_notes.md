@@ -6,8 +6,8 @@ Exported virtual appliance using the ovftool.exe from VMWare Workstation 14 Play
 This is caused by biosdevname renaming the device.  To address the issue, do the following
 * vi /etc/default/grub
 * Add the following to GRUB_CMDLINE_LINUX
-** biosdevname=0
-** net.ifnames=0
+..* biosdevname=0
+..* net.ifnames=0
 * To make this change active, run the following command
-** grub2-mkconfig -o /boot/grub2/grub.cfg
+..* grub2-mkconfig -o /boot/grub2/grub.cfg
 * Reboot 
