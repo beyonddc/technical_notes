@@ -34,3 +34,49 @@ Because I will be using the EdgeRouter X as the primary router, therefore we wil
 EdgeRouter X will provide all the routing functionality of my network including receiving the public IP provided by Comcast.  Comcast provides both IPv4 and IPv6 addresses so it is necessary to take that into consideration when configuring the EdgeRouter X.
 
 * Use WAN+2LAN2 Wizard
+
+## Quick note on enabling IPv6 on VLANs
+configure
+
+set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.10
+set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.10 host-address ::1
+set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.10 prefix-id 2
+set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.10 service slaac
+
+set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.20
+set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.20 host-address ::1
+set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.20 prefix-id 3
+set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.20 service slaac
+
+set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.30
+set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.30 host-address ::1
+set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.30 prefix-id 4
+set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.30 service slaac
+
+commit
+save
+exit
+
+## Quick note on restricting communication between VLAN 20 and VLAN 30
+configure
+
+set firewall group address-group 20_30_ROUTER_IP address 192.168.20.1
+set firewall group address-group 20_30_ROUTER_IP address 192.168.30.1
+
+set firewall group network-group 20_30_VLAN_NETS network 192.168.20.0/24
+set firewall group network-group 20_30_VLAN_NETS network 192.168.30.0/24
+
+set firewall name 20_30_VLAN_IN default-action accept
+
+set firewall name 20_30_VLAN_IN rule 10 action accept
+set firewall name 20_30_VLAN_IN rule 10 destination group address-group 20_30_ROUTER_IP
+
+set firewall name 20_30_VLAN_IN rule 20 action drop
+set firewall name 20_30_VLAN_IN rule 20 destination group network-group 20_30_VLAN_NETS
+
+set interfaces switch switch0 vif 20 firwall in name 20_30_VLAN_IN
+set interfaces switch switch0 vif 30 firwall in name 20_30_VLAN_IN
+
+commit
+save
+exit
