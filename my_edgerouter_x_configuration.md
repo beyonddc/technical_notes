@@ -36,6 +36,7 @@ EdgeRouter X will provide all the routing functionality of my network including 
 * Use WAN+2LAN2 Wizard
 
 ## Quick note on enabling IPv6 on VLANs
+```
 configure
 
 set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.10
@@ -56,8 +57,9 @@ set interfaces ethernet eth0 dhcpv6-pd pd 0 interface switch0.30 service slaac
 commit
 save
 exit
-
+```
 ## Quick note on restricting communication between VLAN 20 and VLAN 30
+```
 configure
 
 set firewall group address-group 20_30_ROUTER_IP address 192.168.20.1
@@ -80,3 +82,4 @@ set interfaces switch switch0 vif 30 firwall in name 20_30_VLAN_IN
 commit
 save
 exit
+```
