@@ -62,22 +62,25 @@ exit
 ```
 configure
 
-set firewall group address-group 20_30_ROUTER_IP address 192.168.20.1
-set firewall group address-group 20_30_ROUTER_IP address 192.168.30.1
+set firewall group address-group ROUTER_IP_20_30 address 192.168.20.1
+set firewall group address-group ROUTER_IP_20_30 address 192.168.30.1
 
-set firewall group network-group 20_30_VLAN_NETS network 192.168.20.0/24
-set firewall group network-group 20_30_VLAN_NETS network 192.168.30.0/24
+set firewall group network-group VLAN_20 network 192.168.20.0/24
+set firewall group network-group VLAN_30 network 192.168.30.0/24
 
-set firewall name 20_30_VLAN_IN default-action accept
+set firewall name VLAN_20_IN default-action accept
+set firewall name VLAN_20_IN rule 10 action accept
+set firewall name VLAN_20_IN rule 10 destination group address-group ROUTER_IP_20_30
+set firewall name VLAN_20_IN rule 20 action drop
+set firewall name VLAN_20_IN rule 20 destination group network-group VLAN_30
+set interfaces switch switch0 vif 20 firwall in name VLAN_20_IN
 
-set firewall name 20_30_VLAN_IN rule 10 action accept
-set firewall name 20_30_VLAN_IN rule 10 destination group address-group 20_30_ROUTER_IP
-
-set firewall name 20_30_VLAN_IN rule 20 action drop
-set firewall name 20_30_VLAN_IN rule 20 destination group network-group 20_30_VLAN_NETS
-
-set interfaces switch switch0 vif 20 firwall in name 20_30_VLAN_IN
-set interfaces switch switch0 vif 30 firwall in name 20_30_VLAN_IN
+set firewall name VLAN_30_IN default-action accept
+set firewall name VLAN_30_IN rule 10 action accept
+set firewall name VLAN_30_IN rule 10 destination group address-group ROUTER_IP_20_30
+set firewall name VLAN_30_IN rule 20 action drop
+set firewall name VLAN_30_IN rule 20 destination group network-group VLAN_20
+set interfaces switch switch0 vif 30 firwall in name VLAN_30_IN
 
 commit
 save
