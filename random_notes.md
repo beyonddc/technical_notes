@@ -13,3 +13,6 @@
 * Create **/etc/sysconfig/network-scripts/ifcg-eth0**
 * Disable NetworkManager by **systemctl disable NetworkManager**
 * Reboot system by **shutdown -r now**
+
+# Enable nested virtualization on ESXI Server
+* Modify the VM's.vmx file and add "vhv.enable = TRUE"
