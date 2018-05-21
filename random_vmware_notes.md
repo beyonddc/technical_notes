@@ -7,3 +7,9 @@
 
 # Unable to boot a VM in VMWare
 Seems like changing `firmware = "efi"` to `firmware = "bios"` in the *.vmx file fixed the issue
+
+# Export VM to OVF from ESXI Server using OVF Tool
+In this example, the OVF Tool is installed on a Windows host.  
+`PS C:\Program Files\VMware\VMware OVF Tool> .\ovftool.exe vi://root@<ip_address>/<vm_name> "C:\<windows_path>\<vm_name>.ovf"`  
+Example:  
+`PS C:\Program Files\VMware\VMware OVF Tool> .\ovftool.exe vi://root@192.168.8.99/Foo "C:\Users\beyonddc\Desktop\Foo\Foo.ovf"`
