@@ -13,3 +13,11 @@
 * Create **/etc/sysconfig/network-scripts/ifcg-eth0**
 * Disable NetworkManager by **systemctl disable NetworkManager**
 * Reboot system by **shutdown -r now**
+
+# Enable git 2.x on RHEL 7
+* You will need to use Git 2.9 by Software Collections
+* On RHEL OS
+..* sudo yum-config-manager --enable rhel-server-rhscl-7-rpms
+..* sudo yum install rh-git29
+..* scl enable rh-git29 bash
+* For detail, see https://www.softwarecollections.org/en/scls/rhscl/rh-git29/
