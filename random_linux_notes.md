@@ -21,3 +21,19 @@
   * sudo yum install rh-git29
   * scl enable rh-git29 bash
 * For detail, see https://www.softwarecollections.org/en/scls/rhscl/rh-git29/
+
+# dnsmasq mysteriously starts on its own
+
+dnsmasq was disabled and removed using the `systemctl` command but it still starts on its own automatically on RHEL 7.x.  Apparently this is because it is started automatically by `libvirt`.  If you do not need `libvirt` then you can disable it altogether.
+
+```
+# virsh net-list
+ Name                 State      Autostart     Persistent
+----------------------------------------------------------
+ default              active     yes           yes
+ 
+ 
+# virsh net-autostart --network default --disable
+```
+
+
