@@ -89,3 +89,27 @@ commit
 save
 exit
 ```
+## Quick note on restricting Internet communication from VLAN_98 but can access VLAN_10 and VLAN_20
+```
+configure
+
+set firewall group network-group VLAN_10 network 192.168.10.0/24
+set firewall group network-group VLAN_20 network 192.168.20.0/24
+set firewall group network-group VLAN_98 network 192.168.98.0/24
+
+set firewall name VLAN_98_IN default-action drop
+set firewall name VLAN_98_IN rule 10 action accept
+set firewall name VLAN_98_IN rule 10 protocol all
+set firewall name VLAN_98_IN rule 10 destination group network-group VLAN_10
+set firewall name VLAN_98_IN rule 20 action accept
+set firewall name VLAN_98_IN rule 20 protocol all
+set firewall name VLAN_98_IN rule 20 destination group network-group VLAN_20
+set firewall name VLAN_98_IN rule 30 action accept
+set firewall name VLAN_98_IN rule 30 protocol all
+set firewall name VLAN_98_IN rule 30 destination group network-group VLAN_98
+set interfaces switch switch0 vif 98 firewall in name VLAN_98_IN
+
+commit
+save
+exit
+```
