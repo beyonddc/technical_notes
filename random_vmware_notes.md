@@ -16,3 +16,14 @@ Example:
 
 # Register a VM using vim-cmd on an ESXI Server
 `vim-cmd solo/registervm /vmfs/volumes/5ad63960-9e683519-7280-000e0cc162f3/VMs/Foo/Foo.vmx`
+
+# Some rough steps on extending disk space for a LVM on RHEL/CentOS on an ESXI Server
+* Create a new hard disk for the VM on the ESXI Server
+* Start up the VM
+* Log into the VM and open a termainl as root
+* Use `fdisk` to create partition for the new added hard disk (e.g `fdisk /dev/sdb`), 1) add new partitation and 2) write table to dsk and exit
+* Initialize the partition using `pvcreate` command (e.g. `pvcreate /dev/sdb1`)
+* Extend the volume group (e.g. `vgextend <volume_group_name> /dev/sdb1`).  Use `vgdisplay` to display volume group information, and `pvscan` to verify volume group after it is extended
+* Extend the logical volume (e.g. `lvextend <logical_volume_name> /dev/sdb1`)  Use `lvdisplay` to display logical volume information
+* Grow the logical volume (e.g. `xfs_growfs <logical_volume_name>`)
+* Verify disk space is growed successfully (e.g. `df -h`)
