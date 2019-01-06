@@ -27,3 +27,9 @@ Example:
 * Extend the logical volume (e.g. `lvextend <logical_volume_name> /dev/sdb1`)  Use `lvdisplay` to display logical volume information
 * Grow the logical volume (e.g. `xfs_growfs <logical_volume_name>`)
 * Verify disk space is growed successfully (e.g. `df -h`)
+
+# To display memory information of each slot via CLI on the ESXI node
+`smbiosDump |grep -A 12 'Memory Device'`
+
+# To display memory summary via CLI on the ESXI node
+`smbiosDump |grep -A 4 'Physical Memory Array'`
