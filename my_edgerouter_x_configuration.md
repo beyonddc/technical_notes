@@ -158,3 +158,16 @@ commit
 save
 exit
 ```
+## Quick note on enabling mdns repeater
+```
+configure
+
+set service mdns repeater interface switch0
+set service mdns repeater interface switch0.20
+set service mdns repeater interface switch0.30
+set service mdns repeater interface switch0.468
+
+commit
+save
+exit
+```
