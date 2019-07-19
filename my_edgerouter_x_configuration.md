@@ -58,32 +58,77 @@ commit
 save
 exit
 ```
-## Quick note on restricting communication between VLAN 20 and VLAN 30
+## Quick note on restricting communication in VLAN30 and VLAN468
 ```
 configure
-
-set firewall group address-group ROUTER_IP_20_30 address 192.168.20.1
-set firewall group address-group ROUTER_IP_20_30 address 192.168.30.1
 
 set firewall group network-group VLAN_20 network 192.168.20.0/24
 set firewall group network-group VLAN_30 network 192.168.30.0/24
 set firewall group network-group LAN network 192.168.8.0/24
-
-set firewall name VLAN_20_IN default-action accept
-set firewall name VLAN_20_IN rule 10 action accept
-set firewall name VLAN_20_IN rule 10 destination group address-group ROUTER_IP_20_30
-set firewall name VLAN_20_IN rule 20 action drop
-set firewall name VLAN_20_IN rule 20 destination group network-group VLAN_30
-set interfaces switch switch0 vif 20 firwall in name VLAN_20_IN
+set firewall group network-group RFC_1918 network 192.168.0.0/16
+set firewall group network-group RFC_1918 network 172.16.0.0/12
+set firewall group network-group RFC_1918 network 10.0.0.0/18
 
 set firewall name VLAN_30_IN default-action accept
 set firewall name VLAN_30_IN rule 10 action accept
-set firewall name VLAN_30_IN rule 10 destination group address-group ROUTER_IP_20_30
-set firewall name VLAN_30_IN rule 20 action drop
-set firewall name VLAN_30_IN rule 20 destination group network-group VLAN_20
-set firewall name VLAN_30_IN rule 30 action drop
-set firewall name VLAN_30_IN rule 30 destination group network-group LAN
+set firewall name VLAN_30_IN rule 10 destination group network-group VLAN_20
+set firewall name VLAN_30_IN rule 10 state established enable
+set firewall name VLAN_30_IN rule 10 state related enable
+set firewall name VLAN_30_IN rule 10 protocol all
+set firewall name VLAN_30_IN rule 20 action accept
+set firewall name VLAN_30_IN rule 20 destination address 192.168.10.1
+set firewall name VLAN_30_IN rule 20 destination port 137-139
+set firewall name VLAN_30_IN rule 20 protocol tcp_udp
+set firewall name VLAN_30_IN rule 30 action accept
+set firewall name VLAN_30_IN rule 30 destination address 192.168.10.1
+set firewall name VLAN_30_IN rule 30 destination port 445
+set firewall name VLAN_30_IN rule 30 protocol tcp_udp
+set firewall name VLAN_30_IN rule 40 action drop
+set firewall name VLAN_30_IN rule 40 destination group network-group RFC_1918
+set firewall name VLAN_30_IN rule 40 protocol all
 set interfaces switch switch0 vif 30 firwall in name VLAN_30_IN
+set firewall name VLAN_30_LOCAL default-action drop
+set firewall name VLAN_30_LOCAL rule 10 action accept
+set firewall name VLAN_30_LOCAL rule 10 destination address 192.168.30.1
+set firewall name VLAN_30_LOCAL rule 10 destination port 53
+set firewall name VLAN_30_LOCAL rule 10 protocol tcp_udp
+set firewall name VLAN_30_LOCAL rule 20 action accept
+set firewall name VLAN_30_LOCAL rule 20 destination port 67
+set firewall name VLAN_30_LOCAL rule 10 protocol udp
+set interfaces switch switch0 vif 30 firewall local name VLAN_30_LOCAL
+
+set firewall name VLAN_468_IN default-action accept
+set firewall name VLAN_468_IN rule 10 action accept
+set firewall name VLAN_468_IN rule 10 destination group network-group VLAN_20
+set firewall name VLAN_468_IN rule 10 state established enable
+set firewall name VLAN_468_IN rule 10 state related enable
+set firewall name VLAN_468_IN rule 10 protocol all
+set firewall name VLAN_468_IN rule 20 action accept
+set firewall name VLAN_468_IN rule 20 destination group network-group VLAN_30
+set firewall name VLAN_468_IN rule 20 state established enable
+set firewall name VLAN_468_IN rule 20 state related enable
+set firewall name VLAN_468_IN rule 20 protocol all
+set firewall name VLAN_468_IN rule 30 action accept
+set firewall name VLAN_468_IN rule 30 destination address 192.168.10.1
+set firewall name VLAN_468_IN rule 30 destination port 137-139
+set firewall name VLAN_468_IN rule 30 protocol tcp_udp
+set firewall name VLAN_468_IN rule 40 action accept
+set firewall name VLAN_468_IN rule 40 destination address 192.168.10.1
+set firewall name VLAN_468_IN rule 40 destination port 445
+set firewall name VLAN_468_IN rule 40 protocol tcp_udp
+set firewall name VLAN_468_IN rule 50 action drop
+set firewall name VLAN_468_IN rule 50 destination group network-group RFC_1918
+set firewall name VLAN_468_IN rule 50 protocol all
+set interfaces switch switch0 vif 468 firewall in name VLAN_468_IN
+set firewall name VLAN_468_LOCAL default-action drop
+set firewall name VLAN_468_LOCAL rule 10 action accept
+set firewall name VLAN_468_LOCAL rule 10 destination address 192.168.97.1
+set firewall name VLAN_468_LOCAL rule 10 destination port 53
+set firewall name VLAN_468_LOCAL rule 10 protocol tcp_udp
+set firewall name VLAN_468_LOCAL rule 20 action accept
+set firewall name VLAN_468_LOCAL rule 20 destination port 67
+set firewall name VLAN_468_LOCAL rule 20 protocol udp
+set interfaces switch switch0 vif 468 firewall local name VLAN_468_LOCAL
 
 commit
 save
