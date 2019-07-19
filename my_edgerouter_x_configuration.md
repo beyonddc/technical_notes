@@ -64,6 +64,7 @@ configure
 
 set firewall group network-group VLAN_20 network 192.168.20.0/24
 set firewall group network-group VLAN_30 network 192.168.30.0/24
+set firewall group network-group VLAN_97 network 192.168.97.0/24
 set firewall group network-group LAN network 192.168.8.0/24
 set firewall group network-group RFC_1918 network 192.168.0.0/16
 set firewall group network-group RFC_1918 network 172.16.0.0/12
@@ -75,6 +76,11 @@ set firewall name VLAN_30_IN rule 10 destination group network-group VLAN_20
 set firewall name VLAN_30_IN rule 10 state established enable
 set firewall name VLAN_30_IN rule 10 state related enable
 set firewall name VLAN_30_IN rule 10 protocol all
+set firewall name VLAN_30_IN rule 11 action accept
+set firewall name VLAN_30_IN rule 11 destination group network-group VLAN_97
+set firewall name VLAN_30_IN rule 11 state established enable
+set firewall name VLAN_30_IN rule 11 state related enable
+set firewall name VLAN_30_IN rule 11 protocol all
 set firewall name VLAN_30_IN rule 20 action accept
 set firewall name VLAN_30_IN rule 20 destination address 192.168.10.1
 set firewall name VLAN_30_IN rule 20 destination port 137-139
