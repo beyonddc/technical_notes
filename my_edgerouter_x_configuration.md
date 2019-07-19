@@ -109,11 +109,11 @@ set firewall name VLAN_468_IN rule 20 state established enable
 set firewall name VLAN_468_IN rule 20 state related enable
 set firewall name VLAN_468_IN rule 20 protocol all
 set firewall name VLAN_468_IN rule 30 action accept
-set firewall name VLAN_468_IN rule 30 destination address 192.168.10.1
+set firewall name VLAN_468_IN rule 30 destination address 192.168.10.110
 set firewall name VLAN_468_IN rule 30 destination port 137-139
 set firewall name VLAN_468_IN rule 30 protocol tcp_udp
 set firewall name VLAN_468_IN rule 40 action accept
-set firewall name VLAN_468_IN rule 40 destination address 192.168.10.1
+set firewall name VLAN_468_IN rule 40 destination address 192.168.10.110
 set firewall name VLAN_468_IN rule 40 destination port 445
 set firewall name VLAN_468_IN rule 40 protocol tcp_udp
 set firewall name VLAN_468_IN rule 50 action drop
