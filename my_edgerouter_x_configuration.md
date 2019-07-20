@@ -62,6 +62,7 @@ exit
 ```
 configure
 
+set firewall group network-group VLAN_10 network 192.168.10.0/24
 set firewall group network-group VLAN_20 network 192.168.20.0/24
 set firewall group network-group VLAN_30 network 192.168.30.0/24
 set firewall group network-group VLAN_97 network 192.168.97.0/24
@@ -76,31 +77,25 @@ set firewall name VLAN_30_IN rule 10 destination group network-group VLAN_20
 set firewall name VLAN_30_IN rule 10 state established enable
 set firewall name VLAN_30_IN rule 10 state related enable
 set firewall name VLAN_30_IN rule 10 protocol all
-set firewall name VLAN_30_IN rule 11 action accept
-set firewall name VLAN_30_IN rule 11 destination group network-group VLAN_97
-set firewall name VLAN_30_IN rule 11 state established enable
-set firewall name VLAN_30_IN rule 11 state related enable
-set firewall name VLAN_30_IN rule 11 protocol all
-set firewall name VLAN_30_IN rule 20 action accept
-set firewall name VLAN_30_IN rule 20 destination address 192.168.10.1
-set firewall name VLAN_30_IN rule 20 destination port 137-139
-set firewall name VLAN_30_IN rule 20 protocol tcp_udp
+set firewall name VLAN_30_IN rule 20 action drop
+set firewall name VLAN_30_IN rule 20 destination group network-group VLAN_20
+set firewall name VLAN_30_IN rule 20 protocol all
 set firewall name VLAN_30_IN rule 30 action accept
-set firewall name VLAN_30_IN rule 30 destination address 192.168.10.1
-set firewall name VLAN_30_IN rule 30 destination port 445
+set firewall name VLAN_30_IN rule 30 destination address 192.168.10.110
+set firewall name VLAN_30_IN rule 30 destination port 137-139
 set firewall name VLAN_30_IN rule 30 protocol tcp_udp
-set firewall name VLAN_30_IN rule 40 action drop
-set firewall name VLAN_30_IN rule 40 destination group network-group RFC_1918
-set firewall name VLAN_30_IN rule 40 protocol all
-set interfaces switch switch0 vif 30 firwall in name VLAN_30_IN
-set firewall name VLAN_30_LOCAL default-action drop
-set firewall name VLAN_30_LOCAL rule 10 action accept
-set firewall name VLAN_30_LOCAL rule 10 destination address 192.168.30.1
-set firewall name VLAN_30_LOCAL rule 10 destination port 53
-set firewall name VLAN_30_LOCAL rule 10 protocol tcp_udp
-set firewall name VLAN_30_LOCAL rule 20 action accept
-set firewall name VLAN_30_LOCAL rule 20 destination port 67
-set firewall name VLAN_30_LOCAL rule 10 protocol udp
+set firewall name VLAN_30_IN rule 40 action accept
+set firewall name VLAN_30_IN rule 40 destination address 192.168.10.110
+set firewall name VLAN_30_IN rule 40 destination port 445
+set firewall name VLAN_30_IN rule 40 protocol tcp_udp
+set firewall name VLAN_30_IN rule 50 action drop
+set firewall name VLAN_30_IN rule 50 destination group network-group VLAN_10
+set firewall name VLAN_30_IN rule 50 protocol all
+set firewall name VLAN_30_IN rule 60 action drop
+set firewall name VLAN_30_IN rule 60 destination group network-group LAN
+set firewall name VLAN_30_IN rule 60 protocol all
+set interfaces switch switch0 vif 30 firewall in name VLAN_30_IN
+set firewall name VLAN_30_LOCAL default-action accept
 set interfaces switch switch0 vif 30 firewall local name VLAN_30_LOCAL
 
 set firewall name VLAN_97_IN default-action accept
