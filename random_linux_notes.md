@@ -35,5 +35,10 @@ dnsmasq was disabled and removed using the `systemctl` command but it still star
  
 # virsh net-autostart --network default --disable
 ```
-
+# Unable to register with RHSM
+```
+rm -rf /etc/pki/consumer
+rm -rf /etc/pki/entitlement
+subscription-manager clean
+```
 
