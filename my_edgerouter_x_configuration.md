@@ -113,6 +113,10 @@ set firewall name VLAN_97_IN rule 30 action accept
 set firewall name VLAN_97_IN rule 30 destination address 192.168.10.110
 set firewall name VLAN_97_IN rule 30 destination port 137-139
 set firewall name VLAN_97_IN rule 30 protocol tcp_udp
+set firewall name VLAN_97_IN rule 31 action accept
+set firewall name VLAN_97_IN rule 31 destination address 192.168.10.111
+set firewall name VLAN_97_IN rule 31 destination port 1900, 32400
+set firewall name VLAN_97_IN rule 31 protocol tcp_udp
 set firewall name VLAN_97_IN rule 40 action accept
 set firewall name VLAN_97_IN rule 40 destination address 192.168.10.110
 set firewall name VLAN_97_IN rule 40 destination port 445
