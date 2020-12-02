@@ -174,7 +174,24 @@ configure
 set service mdns repeater interface switch0
 set service mdns repeater interface switch0.20
 set service mdns repeater interface switch0.30
-set service mdns repeater interface switch0.468
+set service mdns repeater interface switch0.97
+
+commit
+save
+exit
+```
+## Quick note on enabling port forwarding for Plex
+```
+configure
+
+set port-forward auto-firewall enable
+set port-forward wan-interface eth0
+set port-forward lan-interface switch0.10
+set port-forward rule 1 description Plex
+set port-forward rule 1 forward-to address 192.168.10.111
+set port-forward rule 1 forward-to port 32400
+set port-forward rule 1 original-port 32400
+set port-forward rule 1 protocol both
 
 commit
 save
